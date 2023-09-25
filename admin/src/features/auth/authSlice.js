@@ -1,6 +1,7 @@
+// authSlice.js
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { authService } from "./authService";
-//import { toast } from "react-toastify";
 
 const getUserfromLocalStorage = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
@@ -8,7 +9,8 @@ const getUserfromLocalStorage = localStorage.getItem("user")
 
 const initialState = {
     user: getUserfromLocalStorage,
-    orders : [],
+    orders: [],
+    filteredOrders: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -34,9 +36,9 @@ export const getMonthlyData = createAsyncThunk(
         return thunkAPI.rejectWithValue(error);
       }
     }
-  );
+);
 
-  export const getYearlyData = createAsyncThunk(
+export const getYearlyData = createAsyncThunk(
     'orders/yearlydata',
     async (data, thunkAPI) => {
       try {
@@ -45,7 +47,7 @@ export const getMonthlyData = createAsyncThunk(
         return thunkAPI.rejectWithValue(error);
       }
     }
-  ); 
+); 
 
 export const getOrders = createAsyncThunk(
     'order/getallorders', 
@@ -78,12 +80,28 @@ export const updateAOrder = createAsyncThunk(
       }
     }
 );
+
+export const searchOrders = (searchText) => (dispatch, getState) => {
+    const orderState = getState().auth.orders.orders;
   
+    if (orderState) {
+      const filtered = orderState.filter((order) =>
+        order.user.firstname.toLowerCase().includes(searchText.toLowerCase()) ||
+        order.user.lastname.toLowerCase().includes(searchText.toLowerCase())
+      );
+  
+      dispatch(setFilteredOrders(filtered));
+    }
+};
 
 export const authSlice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+        setFilteredOrders: (state, action) => {
+            state.filteredOrders = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(login.pending, (state) => {
@@ -91,7 +109,6 @@ export const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.isLoading = false;
-                //state.isError = false;
                 state.isSuccess = true;
                 state.user = action.payload;
             })
@@ -100,8 +117,7 @@ export const authSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.user = action.payload;
-            }
-            )
+            })
             .addCase(getOrders.pending, (state) => {
                 state.isLoading = true;
             })
@@ -117,8 +133,7 @@ export const authSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
-            }
-            )
+            })
             .addCase(getOrder.pending, (state) => {
                 state.isLoading = true;
             })
@@ -134,8 +149,7 @@ export const authSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
-            }
-            )
+            })
             .addCase(getMonthlyData.pending, (state) => {
                 state.isLoading = true;
             })
@@ -151,8 +165,7 @@ export const authSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
-            }
-            )
+            })
             .addCase(getYearlyData.pending, (state) => {
                 state.isLoading = true;
             })
@@ -168,8 +181,7 @@ export const authSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
-            }
-            )
+            })
             .addCase(updateAOrder.pending, (state) => {
                 state.isLoading = true;
             })
@@ -185,9 +197,10 @@ export const authSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
-            }
-            );
+            });
     },
 });
+
+export const { setFilteredOrders } = authSlice.actions;
 
 export default authSlice.reducer;
