@@ -13,6 +13,9 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const sendEmail = require("./emailCtrl");
 
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+
 // Create a User 
 const createUser = asyncHandler(async (req, res) => {
   
@@ -537,7 +540,33 @@ const getYearlyTotalOrders = asyncHandler(async (req, res) => {
   res.json(data)
 })
 
+const generateAllOrdersPDF = asyncHandler(async (req, res) => {
+  try {
+    const orders = await Order.find().populate('user');
 
+    const doc = new PDFDocument();
+    doc.pipe(res); // Stream the PDF as a response
+
+    // Set response headers for PDF download
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename="all_orders.pdf"');
+
+    doc.fontSize(16).text('All Orders', { align: 'center' });
+
+    orders.forEach((order, index) => {
+      doc.fontSize(12).text(`Order ID: ${order._id}`, { continued: true });
+      doc.text(`User: ${order.user.firstname} ${order.user.lastname}`);
+      doc.text(`Total Amount: $${order.totalPrice}`);
+      doc.text(`Order Status: ${order.orderStatus}`);
+      doc.moveDown(); // Move cursor down for the next order
+    });
+
+    doc.end(); // Finalize the PDF document
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error generating PDF' });
+  }
+});
 
 
 module.exports = {
@@ -569,4 +598,5 @@ module.exports = {
   getSingleOrders,
   updateOrder,
   emptyCart,
+  generateAllOrdersPDF,
 };

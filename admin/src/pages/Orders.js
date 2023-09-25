@@ -1,9 +1,7 @@
-// Orders.js
-
 import React, { useEffect, useState } from 'react';
 import { Table, Input, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrders, updateAOrder, searchOrders } from '../features/auth/authSlice'; // Import the searchOrders action
+import { getOrders, updateAOrder, searchOrders, generatePDFReport } from '../features/auth/authSlice';
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AiOutlineEye } from "react-icons/ai";
@@ -37,6 +35,7 @@ const Orders = () => {
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState('');
   const [filteredOrders, setFilteredOrders] = useState([]);
+  const [reportUrl, setReportUrl] = useState(null);
 
   useEffect(() => {
     dispatch(getOrders());
@@ -97,13 +96,18 @@ const Orders = () => {
     dispatch(searchOrders(searchText));
   };
 
-  // Function to generate a report
-  const generateReport = () => {
-    // Implement your report generation logic here
-    // You can use a library like pdfmake or export data to a CSV file
-    // For this example, let's just log a message
-    console.log("Generating report...");
+  const handleGenerateReport = () => {
+    dispatch(generatePDFReport())
+      .then((response) => {
+        // If the report is generated successfully, set the URL to download it
+        setReportUrl(response.payload);
+      })
+      .catch((error) => {
+        toast.error('PDF generation failed');
+        console.error(error);
+      });
   }
+  
 
   return (
     <div>
@@ -118,13 +122,18 @@ const Orders = () => {
           onChange={(e) => setSearchText(e.target.value)}
           onSearch={handleSearch}
         />
-        <Button type="primary" onClick={generateReport}>
+        <Button type="primary" onClick={handleGenerateReport}>
           Generate Report
         </Button>
       </div>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      {reportUrl && (
+        <a href={reportUrl} download="all_orders.pdf">
+          Download PDF Report
+        </a>
+      )}
     </div>
   );
 };

@@ -27,6 +27,7 @@ const {
   getSingleOrders,
   updateOrder,
   emptyCart,
+  generateAllOrdersPDF,
 
 } = require("../controller/userCtrl");
 
@@ -54,7 +55,7 @@ router.get("/getallorders", getAllOrders);
 router.get("/getaOrder/:id", authMiddleware, isAdmin, getSingleOrders);
 router.put("/updateOrder/:id", authMiddleware, isAdmin, updateOrder);
 
-
+router.get('/generate-all-orders-pdf', authMiddleware, isAdmin, generateAllOrdersPDF);
 router.get("/refresh", handleRefreshToken);
 router.get("/logout", logout);
 router.get("/cart", authMiddleware, getUserCart);
