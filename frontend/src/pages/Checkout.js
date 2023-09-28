@@ -7,13 +7,22 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { config } from '../utils/axiosConfig';
-import { createAnOrder, deleteUserCart, getUserCart, resetState } from '../features/user/userSlice';
+import { createAnOrder, deleteUserCart,/* getUserCart,*/ resetState } from '../features/user/userSlice';
 
 const shippingSchema = yup.object({
-  firstName: yup.string().required('First Name is required'),
-  lastName: yup.string().required('Last Name is required'),
+  firstName: yup
+    .string()
+    .matches(/^[A-Za-z]+$/, 'First Name should contain only letters')
+    .required('First Name is required'),
+  lastName: yup
+    .string()
+    .matches(/^[A-Za-z]+$/, 'Last Name should contain only letters')
+    .required('Last Name is required'),
   address: yup.string().required('Address is required'),
-  street: yup.string().required('Street is required'),
+  street: yup
+    .string()
+    .matches(/^[A-Za-z]+$/, 'Street should contain only letters')
+    .required('Street is required'),
   city: yup.string().required('City is required'),
 });
 
@@ -139,7 +148,7 @@ const Checkout = () => {
         
       },
       prefill: {
-        name: 'Chathura MOters',
+        name: 'Chathura Moters',
         email: 'Cmoters@example.com',
         contact: '9999999999',
       },
@@ -273,7 +282,7 @@ const Checkout = () => {
                       <AiOutlineArrowLeft className='me-2' />
                       Return to Cart
                     </Link>
-                    <Link to='/product' className='button'>
+                    <Link to='/store' className='button'>
                       Continue to Shipping
                     </Link>
                     <button className='button' type='submit'>

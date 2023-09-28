@@ -7,17 +7,16 @@ const ProductCard = (props) => {
     let location = useLocation();
     
   return (
-    <>
-      <div className={`${location.pathname === "/store" ? `gr-${grid}` : "col-3"}`}>
+    <div className={`${location.pathname === "/home/store" ? `gr-${grid}` : "col-3"}`}>
         <div className='product-card position-relative'>
             <div className='wishlist-icon position-absolute'>
                 <Link>
-                    <img src='images/wish.svg' alt='wishlist' />
+                    <img src='/images/wish.svg' alt='wishlist' />
                 </Link>
             </div>
             <div className='product-image'>
-                <img src='watch.jpg' className='img-fluid' alt="product pic" />
-                <img src='images/watch.jpg' className='img-fluid' alt="product pic" />
+                <img src='/images/watch.jpg' className='img-fluid' alt="product pic" />
+                <img src='/images/watch.jpg' className='img-fluid' alt="product pic" />
             </div>
             <div className='product-details'>
                 <h6 className='brand'>Bajaj</h6>
@@ -32,17 +31,16 @@ const ProductCard = (props) => {
             </div>
             <div className='action-bar position-absolute'>
                 <div className='d-flex flex-column gap-15'>
-                    <Link to="/single-product">
-                        <img src='images/view.svg' alt='view' />
+                    <Link to="product/">
+                        <img src='/images/view.svg' alt='view' />
                     </Link>
                     <Link>
-                        <img src='images/add-cart.svg' alt='addcart' />
+                        <img src='/images/add-cart.svg' alt='addcart' />
                     </Link>
                 </div>
             </div>
         </div>
     </div>
-    </>
   );
 };
 

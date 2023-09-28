@@ -65,11 +65,45 @@ const MainLayout = () => {
               key: 'supplier',
               icon: <BiSolidUserDetail className='fs-4'/>,
               label: 'Supplier',
+              children : [
+                {
+                  key: 'supplier',
+                  icon: <BiSolidUserDetail className='fs-4'/>,
+                  label: 'Add Supplier',
+                },
+                {
+                  key: 'supplier',
+                  icon: <BiSolidUserDetail className='fs-4'/>,
+                  label: 'View Suppliers',
+                }
+              ]
             },
             {
               key: 'stock',
               icon: <AiOutlineStock className='fs-4'/>,
               label: 'Stock',
+              children : [
+                {
+                  key: 'supplier',
+                  icon: <AiOutlineStock className='fs-4'/>,
+                  label: 'Add Stock',
+                },
+                {
+                  key: 'supplier',
+                  icon: <AiOutlineStock className='fs-4'/>,
+                  label: 'View Stock',
+                },
+                {
+                  key: 'supplier',
+                  icon: <AiOutlineStock className='fs-4'/>,
+                  label: 'View Low Stock',
+                },
+                {
+                  key: 'supplier',
+                  icon: <AiOutlineStock className='fs-4'/>,
+                  label: 'Stock Level',
+                }
+              ]
             },
             {
               key: 'order',

@@ -27,7 +27,7 @@ function App() {
           <Route path="login" element={<OpenRoutes><Login/></OpenRoutes>}/>
           <Route path = "Checkout" element = {<Checkout />}/>
           <Route path="store" element= {<OurStore/>}/>
-          <Route path="single-product" element= {<SingleProduct/>}/>
+          <Route path="store/product/:id" element={<SingleProduct />} />
         </Route>
       </Routes>
     </BrowserRouter>

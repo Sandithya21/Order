@@ -108,7 +108,7 @@ const Cart = () => {
             })}
             <div className='col-12 py-2 mt-4'>
               <div className='d-flex justify-content-between align-items-baseline'>
-                <Link to='/product' className="button">Continue to shopping</Link>
+                <Link to='/store' className="button">Continue to shopping</Link>
                 {
                   (totalAmount !== null || totalAmount !== 0) &&
                   <div className='d-flex flex-column align-items-end'>

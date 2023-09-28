@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
-import BreadCrumb from "../components/BreadCrumb";
-import Meta from "../components/Meta";
+import React, { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import Color from '../components/Color';
+import BreadCrumb from "../components/BreadCrumb";
+import Meta from "../components/Meta";
+import {useDispatch, useSelector} from "react-redux";
+import { getAllProducts } from '../features/products/productSlice';
 
 const Store = () => {
   const [grid, setGrid] = useState(4);
+  const productState = useSelector((state) => state.product.product);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getProducts();
+  }, [])
+
+  const getProducts = () => {
+    dispatch(getAllProducts())
+  }
 
   return (
     <>
     <Meta title = {"Our Store"}/>
     <BreadCrumb title = "Our Store"/>
-    
+
     <div className='store-wrapper home-wrapper-2 py-5'>
       <div className='container-xxl'>
         <div className='row'>
@@ -84,10 +96,10 @@ const Store = () => {
               <div className='d-flex align-items-center gap-10'>
                 <p className='totalproducts'>Products</p>
                 <div className='d-flex gap-10 align-items-center grid'>
-                  <img onClick={()=>{setGrid(3);}} src='images/gr4.svg' className='d-block img-fluid' alt='grid' />
-                  <img onClick={()=>{setGrid(4);}} src='images/gr3.svg' className='d-block img-fluid' alt='grid' />
-                  <img onClick={()=>{setGrid(6);}} src='images/gr2.svg' className='d-block img-fluid' alt='grid' />
-                  <img onClick={()=>{setGrid(12);}} src='images/gr.svg' className='d-block img-fluid' alt='grid' />
+                  <img onClick={()=>{setGrid(3);}} src='/images/gr4.svg' className='d-block img-fluid' alt='grid' />
+                  <img onClick={()=>{setGrid(4);}} src='/images/gr3.svg' className='d-block img-fluid' alt='grid' />
+                  <img onClick={()=>{setGrid(6);}} src='/images/gr2.svg' className='d-block img-fluid' alt='grid' />
+                  <img onClick={()=>{setGrid(12);}} src='/images/gr.svg' className='d-block img-fluid' alt='grid' />
                 </div>
               </div>
               </div>
