@@ -1,14 +1,13 @@
-const mongoose = require("mongoose"); // Erase if already required
+const mongoose = require("mongoose"); 
 
-// Declare the Schema of the Mongo model
 var cartSchema = new mongoose.Schema(
   {
     userId : {
-      type : mongoose.Schema.Types.ObjectId,
+      type : String,
       ref : "User"
     },
     productId : {
-      type : mongoose.Schema.Types.ObjectId,
+      type : String,
       ref : "Product"
     },
     quantity : {
@@ -23,10 +22,10 @@ var cartSchema = new mongoose.Schema(
       type : String,
       //type : mongoose.Schema.Types.ObjectId,
       ref : "Color"
-    }
-  },
+    },
+  }, 
   {
-    timeseries : true
+    timestamps: true,
   }
 );
 

@@ -40,6 +40,9 @@ app.use("/api/product", productRouter);
 const couponRouter = require("./routes/couponRoute");
 app.use("/api/coupon", couponRouter);
 
+const billingRouter = require("./routes/billingRoute");
+app.use("/api/billing", billingRouter);
+
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(notFound);
@@ -48,17 +51,3 @@ app.use(errorHandler);
 app.listen(PORT, () => {
     console.log(`Server is up and running on port number: ${PORT}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {base_url} from "../../utils/axiosConfig";
+import { base_url } from "../../utils/axiosConfig";
 
 
 const getTokenFromLocalStorage = localStorage.getItem("customer")
@@ -33,7 +33,8 @@ const login = async (userData) => {
 }
 
 const addToCart = async (cartData) => {
-  const response = await axios.post(`${base_url}user/cart`, cartData, config);
+  console.log(config)
+  const response = await axios.post("http://localhost:8040/api/user/cart", cartData, config);
   if (response.data) {
     return response.data;
   }

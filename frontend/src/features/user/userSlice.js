@@ -21,7 +21,9 @@ export const loginUser = createAsyncThunk("auth/login", async (userData, thunkAP
 });
 
 
-export const addProToCart = createAsyncThunk("user/cart/add", async (cartData, thunkAPI) => {
+export const addProToCart = createAsyncThunk(
+    "user/cart/add", 
+    async (cartData, thunkAPI) => {
     try {
         return await authService.addToCart(cartData);
     } catch (error) {

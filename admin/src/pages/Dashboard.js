@@ -2,14 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { Column } from '@ant-design/plots';
 //import {BsArrowDownRight, BsArrowUpLeft} from "react-icons/bs";
 import {Table} from "antd";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { getMonthlyData, getYearlyData, getOrders } from '../features/auth/authSlice';
 
+
 const columns = [
-  {
-    title: 'OrderNo',
-    dataIndex: 'key',
-  },
   {
     title: 'Name',
     dataIndex: 'name',
@@ -42,6 +39,7 @@ const Dashboard = () => {
   const [dataMonthly, setDataMonthly] = useState([])
   const [dataMonthlySales, setDataMonthlySales] = useState([])
   const [orderData, setOrderdata] = useState([])
+  
 
   useEffect(() => {
     const getTokenFromLocalStorage = localStorage.getItem("user")
@@ -60,9 +58,9 @@ const Dashboard = () => {
     dispatch(getMonthlyData(config3));
     dispatch(getYearlyData(config3));
     dispatch(getOrders(config3));
-  }, [dispatch]); // Include dispatch in the dependency array
+  }, [dispatch]); 
   
-  
+ 
 
   console.log(monthlyDataState);
 
@@ -82,7 +80,7 @@ const Dashboard = () => {
     for (let i = 1; i < orderState?.length; i++) {
       data1.push({
         key: i,
-        name: orderState[i].user.firstname + orderState[i].user.lastname,
+        name: orderState[i].user?.firstname + " " + orderState[i].user?.lastname,
         product: orderState[i].orderItems?.length,
         price : orderState[i]?.totalPrice,
         dprice : orderState[i]?.totalPriceAfterDiscount,
@@ -157,6 +155,7 @@ const Dashboard = () => {
   };
 
   return (
+    
     <div>
       <h3 className='mb-4 title'>Dashboard</h3>
       <div className='d-flex justify-content-between align-items-center gap-3'>
